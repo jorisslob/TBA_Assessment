@@ -1,4 +1,4 @@
-package nl.jslob;
+package nl.jslob.tba.assessment;
 
 public class Main {
 
