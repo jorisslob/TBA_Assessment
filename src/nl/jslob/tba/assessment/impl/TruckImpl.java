@@ -15,21 +15,25 @@ public class TruckImpl implements Truck {
 		this.loaded = loaded;
 	}
 	
+	@Override
 	public String getContainerID() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public boolean getLoaded() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	@Override
 	public LocalTime getArrivalTime() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public String toString() {
 		return arrivaltime + " " + id + " " + loaded;
 	}

@@ -1,5 +1,5 @@
 package nl.jslob.tba.assessment.model;
 
 public interface HarborLocation {
-	void processTruck();
+	public abstract void processTruck();
 }

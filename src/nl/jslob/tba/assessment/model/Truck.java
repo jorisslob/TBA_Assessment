@@ -3,7 +3,7 @@ package nl.jslob.tba.assessment.model;
 import java.time.LocalTime;
 
 public interface Truck {
-	public LocalTime getArrivalTime();
-	public String getContainerID();
-	public boolean getLoaded();
+	public abstract LocalTime getArrivalTime();
+	public abstract String getContainerID();
+	public abstract boolean getLoaded();
 }

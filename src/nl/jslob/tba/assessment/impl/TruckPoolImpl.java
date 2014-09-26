@@ -4,6 +4,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalTime;
+import java.util.Map;
+import java.util.TreeMap;
 
 import nl.jslob.tba.assessment.model.HarborLocation;
 import nl.jslob.tba.assessment.model.Truck;
@@ -18,10 +20,14 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 public class TruckPoolImpl implements TruckPool, HarborLocation {
 
+	private Map<LocalTime, Truck> trucks;
+	
 	/*
 	 * Create a new TruckPoolImpl using an xlsx file located at the absolute filepath absFilePath
 	 */
 	public TruckPoolImpl(String absFilePath) throws InvalidFormatException, IOException {
+		trucks = new TreeMap<LocalTime, Truck>();
+		
 		InputStream inp = new FileInputStream(absFilePath);
 		Workbook wb = WorkbookFactory.create(inp);
 		Sheet sheet = wb.getSheetAt(0);
@@ -46,7 +52,7 @@ public class TruckPoolImpl implements TruckPool, HarborLocation {
 				loaded = false;
 			}
 			Truck truck = new TruckImpl(time, id, loaded);
-			System.out.println(truck);
+			trucks.put(time, truck);
 			rownum++;
 			row = sheet.getRow(rownum);
 			cell1 = row.getCell(0);
@@ -55,8 +61,13 @@ public class TruckPoolImpl implements TruckPool, HarborLocation {
 		}
 	}
 
+	@Override
 	public void processTruck() {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub		
+	}
+	
+	@Override
+	public Map<LocalTime, Truck> getTruckMap() {
+		return new TreeMap<LocalTime, Truck>(trucks);
 	}
 }

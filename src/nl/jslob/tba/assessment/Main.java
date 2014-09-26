@@ -10,12 +10,16 @@ import nl.jslob.tba.assessment.model.Harbor;
 import nl.jslob.tba.assessment.model.TruckPool;
 
 public class Main {
-	private TruckPool tal;
-	//private Harbor h;
+	private TruckPool pool;
+	private Harbor h;
 	
 	private Main() {
 		try {
-			tal = new TruckPoolImpl("TruckActivity.xlsx");
+			pool = new TruckPoolImpl("TruckActivity.xlsx");
+			h = new HarborImpl(pool.getTruckMap());
+			System.out.println(h);
+			// TODO: Construct the harbor components and link them
+			// TODO: Simulate the harbor
 		} catch (InvalidFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -23,9 +27,6 @@ public class Main {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//h = new HarborImpl(tal);
-		// TODO: Construct the harbor components and link them
-		// TODO: Simulate the harbor
 	}
 	
 	public static void main(String[] args) {
