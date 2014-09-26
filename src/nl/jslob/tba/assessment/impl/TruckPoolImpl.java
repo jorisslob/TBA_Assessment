@@ -51,6 +51,12 @@ public class TruckPoolImpl implements TruckPool, HarborLocation {
 			if(kind.equals("DLVR")) {
 				loaded = false;
 			}
+			// We could get time clashes if two trucks arrive in the same second.
+			// Let us compensate by delaying one truck by one nanosecond until there 
+			// is no clash.
+			while (trucks.containsKey(time)) {
+				time = time.plusNanos(1);
+			}
 			Truck truck = new TruckImpl(time, id, loaded);
 			trucks.put(time, truck);
 			rownum++;
