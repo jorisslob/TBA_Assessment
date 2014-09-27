@@ -11,8 +11,8 @@ public class GammaDistributionRate {
 		gd = new GammaDistribution(alpha, inv_beta);
 	}
 
-	public double getValueInSeconds() {
-		double nano = gd.sample() * 60;
-		return nano;
+	public long getValueInSeconds() {
+		long seconds = (long) (gd.sample() * 60);
+		return seconds;
 	}
 }

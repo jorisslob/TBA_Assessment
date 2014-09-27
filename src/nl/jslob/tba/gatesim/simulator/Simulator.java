@@ -52,11 +52,11 @@ public class Simulator {
 
 		// Put the components in place
 		Component world = new World(stats);
-		Component entry_gate = new Gate(entry, sim_schedule, "entry gate");
-		Component exit_gate = new Gate(exit, sim_schedule, "exit gate");
+		Component entry_gate = new Gate(entry, sim_schedule, 9, 3);
+		Component exit_gate = new Gate(exit, sim_schedule, 3, 3);
 		Component transit_entry_stack = new Transit(sim_schedule);
 		Component transit_stack_exit = new Transit(sim_schedule);
-		Component stack = new StackModules(10, sim_schedule);
+		Component stack = new StackModules(10, sim_schedule, 4, 2);
 		components.add(world);
 		components.add(entry_gate);
 		components.add(transit_entry_stack);

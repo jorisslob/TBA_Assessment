@@ -7,26 +7,24 @@ import java.util.Queue;
 
 import nl.jslob.tba.gatesim.simulator.Schedule;
 import nl.jslob.tba.gatesim.simulator.Truck;
+import nl.jslob.tba.gatesim.util.GammaDistributionRate;
 
 public class Gate implements Component {
 	List<Queue<Truck>> queues;
 	private Schedule schedule;
-	String name;
+	GammaDistributionRate gd;
 
 	/**
 	 * Constructs a gate with a specified number of queue lanes and a link to
-	 * the scheduler
-	 * 
-	 * @param schedule
-	 * @param entry
+	 * the scheduler, and the shape parameters of the Gamma Distribution.
 	 */
-	public Gate(int lanes, Schedule schedule, String name) {
+	public Gate(int lanes, Schedule schedule, int alpha, int beta) {
 		queues = new ArrayList<Queue<Truck>>();
-		for (int i = 0; i < lanes; i++) {
+		for (int l = 0; l < lanes; l++) {
 			queues.add(new LinkedList<Truck>());
 		}
 		this.schedule = schedule;
-		this.name = name;
+		gd = new GammaDistributionRate(alpha,beta);
 	}
 
 	@Override
@@ -45,7 +43,7 @@ public class Gate implements Component {
 		min.offer(t);
 		// If the queue was empty, we can process this truck right away!
 		if (min_val == 0) {
-			schedule.nextTruckSecondFromNow(t, 3 * 60);
+			schedule.nextTruckSecondFromNow(t, gd.getValueInSeconds());
 		} else {
 			// Otherwise we have to wait till other trucks are released...
 			t.putInQueue(schedule.getNow());
@@ -61,7 +59,7 @@ public class Gate implements Component {
 				if (!q.isEmpty()) {
 					Truck next = q.peek();
 					next.endQueueTime(schedule.getNow());
-					schedule.nextTruckSecondFromNow(q.peek(), 3 * 60);
+					schedule.nextTruckSecondFromNow(q.peek(), gd.getValueInSeconds());
 				}
 				return;
 			}
@@ -72,10 +70,5 @@ public class Gate implements Component {
 		}
 
 		throw new IllegalStateException("Truck to be released not found!");
-	}
-
-	@Override
-	public String toString() {
-		return name;
 	}
 }
