@@ -1,8 +1,13 @@
 package nl.jslob.tba.gatesim.simulator;
 
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 
 import nl.jslob.tba.gatesim.components.Component;
+import nl.jslob.tba.gatesim.components.Gate;
+import nl.jslob.tba.gatesim.util.ExcelTruckReader;
 
 /**
  * Simulator Object that deals with time and registers components
@@ -40,6 +45,19 @@ public class Simulator {
 		components = new LinkedHashSet<Component>();
 		schedule = new Schedule();
 		stats = new Statistics();
+		
+		// Put the components in place
+		Component entry_gate = new Gate(entry);
+		Component exit_gate = new Gate(exit);
+		components.add(entry_gate);
+		//components.add(transit_entry_stack);
+		//components.add(stack);
+		//components.add(transit_exit_stack);
+		components.add(exit_gate);
+		
+		// Get the data from the excel list and start populating the scheduler
+		HashMap<Truck, LocalTime> timelist = ExcelTruckReader.read();
+		schedule.addAll(timelist, entry_gate);
 	}
 
 	public void run() {
