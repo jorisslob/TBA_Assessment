@@ -30,22 +30,6 @@ public class Gate implements Component {
 	}
 
 	@Override
-	public double processTimeTruck(Truck t) {
-		return 0.0D;
-	}
-
-	@Override
-	public boolean isQueueViolated() {
-		return false;
-	}
-
-	@Override
-	public double queueTimeTruck(Truck t) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	public void acceptTruck(Truck t) {
 		t.setLocation(this);
 

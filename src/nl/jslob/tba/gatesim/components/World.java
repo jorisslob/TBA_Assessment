@@ -12,21 +12,6 @@ public class World implements Component {
 	}
 
 	@Override
-	public double processTimeTruck(Truck t) {
-		return 0;
-	}
-
-	@Override
-	public boolean isQueueViolated() {
-		return false;
-	}
-
-	@Override
-	public double queueTimeTruck(Truck t) {
-		return 0;
-	}
-
-	@Override
 	public void acceptTruck(Truck t) {
 		stats.addTruck(t);
 	}

@@ -11,13 +11,7 @@ import nl.jslob.tba.gatesim.simulator.Truck;
  */
 public interface Component {
 
-	public double processTimeTruck(Truck t);
+	public abstract void acceptTruck(Truck t);
 
-	public boolean isQueueViolated();
-
-	public double queueTimeTruck(Truck t);
-
-	public void acceptTruck(Truck t);
-
-	public void releaseTruck(Truck t);
+	public abstract void releaseTruck(Truck t);
 }
