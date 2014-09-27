@@ -7,6 +7,7 @@ import java.time.LocalTime;
 import java.util.Map;
 import java.util.TreeMap;
 
+import nl.jslob.tba.assessment.model.CollisionAwareSchedule;
 import nl.jslob.tba.assessment.model.HarborLocation;
 import nl.jslob.tba.assessment.model.Truck;
 import nl.jslob.tba.assessment.model.TruckPool;
@@ -20,13 +21,13 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 public class TruckPoolImpl implements TruckPool, HarborLocation {
 
-	private Map<LocalTime, Truck> trucks;
+	private CollisionAwareScheduleImpl trucks;
 	
 	/*
 	 * Create a new TruckPoolImpl using an xlsx file located at the absolute filepath absFilePath
 	 */
 	public TruckPoolImpl(String absFilePath) throws InvalidFormatException, IOException {
-		trucks = new TreeMap<LocalTime, Truck>();
+		trucks = new CollisionAwareScheduleImpl();
 		
 		InputStream inp = new FileInputStream(absFilePath);
 		Workbook wb = WorkbookFactory.create(inp);
@@ -51,12 +52,6 @@ public class TruckPoolImpl implements TruckPool, HarborLocation {
 			if(kind.equals("DLVR")) {
 				loaded = false;
 			}
-			// We could get time clashes if two trucks arrive in the same second.
-			// Let us compensate by delaying one truck by one nanosecond until there 
-			// is no clash.
-			while (trucks.containsKey(time)) {
-				time = time.plusNanos(1);
-			}
 			Truck truck = new TruckImpl(time, id, loaded);
 			trucks.put(time, truck);
 			rownum++;
@@ -73,7 +68,7 @@ public class TruckPoolImpl implements TruckPool, HarborLocation {
 	}
 	
 	@Override
-	public Map<LocalTime, Truck> getTruckMap() {
-		return new TreeMap<LocalTime, Truck>(trucks);
+	public CollisionAwareScheduleImpl getTruckMap() {
+		return trucks;
 	}
 }

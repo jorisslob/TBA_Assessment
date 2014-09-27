@@ -1,7 +1,6 @@
 package nl.jslob.tba.assessment.model;
 
-import java.time.LocalTime;
-import java.util.Map;
+import nl.jslob.tba.assessment.impl.CollisionAwareScheduleImpl;
 
 /*
  * The TruckPool should read the excel file and present a representation
@@ -9,6 +8,6 @@ import java.util.Map;
  */
 public interface TruckPool {
 
-	public abstract Map<LocalTime, Truck> getTruckMap();
+	public abstract CollisionAwareScheduleImpl getTruckMap();
 
 }

@@ -8,25 +8,29 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+import nl.jslob.tba.assessment.model.CollisionAwareSchedule;
 import nl.jslob.tba.assessment.model.Harbor;
 import nl.jslob.tba.assessment.model.HarborLocation;
+import nl.jslob.tba.assessment.model.Statistics;
 import nl.jslob.tba.assessment.model.Truck;
 import nl.jslob.tba.assessment.model.TruckPool;
 
 public class HarborImpl implements Harbor {
 	// We use TreeMap locally because it keeps the ordering of time
-	private TreeMap<LocalTime, Truck> schedule;
+	private CollisionAwareScheduleImpl schedule;
 	private List<HarborLocation> locations;
 	private Map<Truck,HarborLocation> positions;
+	private Statistics stats;
 	
-	public HarborImpl(Map<LocalTime, Truck> truckmap) {
-		schedule = new TreeMap<LocalTime, Truck>(truckmap);
+	public HarborImpl(CollisionAwareScheduleImpl truckmap, Statistics stats) {
+		schedule = new CollisionAwareScheduleImpl(truckmap);
 
 		locations = new LinkedList<HarborLocation>();
 		positions = new HashMap<Truck,HarborLocation>();
 		for(Truck t:truckmap.values()) {
 			positions.put(t, null);
 		}
+		this.stats = stats;
 	}
 	
 	@Override
@@ -64,20 +68,19 @@ public class HarborImpl implements Harbor {
 		if(loc==null) {
 			HarborLocation newloc = locations.get(0);
 			positions.put(t, newloc);
-			// schedule.put(newtime, t)
+			schedule.put(entry.getKey().plusMinutes(2), t);
 		}
 		// Next lets deal with the situation that the truck is leaving the harbor
 		else if (locations.indexOf(loc)==locations.size()-1) {
 			// The truck isn't in a harbor location anymore
 			// The truck doesn't reenter the schedule.
-			// Deal with the statistics
+			stats.addTruck(t);
 		}
 		// The truck is moving from one location in the harbor to another.
 		else {
-			// Update positions
-			// Update schedule
+			int pos_loc = locations.indexOf(loc);
+			positions.put(t, locations.get(pos_loc+1));
+			schedule.put(entry.getKey().plusMinutes(2), t);
 		}
-		
-		System.out.println(entry);
 	}
 }
