@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import nl.jslob.tba.gatesim.simulator.Truck;
