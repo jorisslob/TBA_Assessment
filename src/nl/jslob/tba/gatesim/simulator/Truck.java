@@ -2,15 +2,15 @@ package nl.jslob.tba.gatesim.simulator;
 
 import nl.jslob.tba.gatesim.components.Component;
 
-public class Truck {
+public class Truck implements Comparable {
 	private String id;
 	private String kind;
-	private Component next;
+	private Component location;
 	
 	public Truck(String id, String kind) {
 		this.id = id;
 		this.kind = kind;
-		next = null;
+		location = null;
 	}
 	
 	public String getId() {
@@ -21,8 +21,23 @@ public class Truck {
 		return kind;
 	}
 
-	public void setNext(Component next) {
-		this.next = next;
+	public void setLocation(Component location) {
+		this.location = location;
+	}
+
+	@Override
+	public int compareTo(Object o) {
+		Truck other = (Truck) o;
+		return this.id.compareTo(other.id);
+	}
+
+	public Component getLocation() {
+		return location;
+	}
+	
+	@Override
+	public String toString() {
+		return id + " " + location;
 	}
 
 }

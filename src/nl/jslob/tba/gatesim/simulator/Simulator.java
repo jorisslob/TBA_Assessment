@@ -1,9 +1,7 @@
 package nl.jslob.tba.gatesim.simulator;
 
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.LinkedList;
 
 import nl.jslob.tba.gatesim.components.Component;
@@ -30,7 +28,7 @@ public class Simulator {
 	LinkedList<Component> components;
 	
 	// The schedule has all the events that are waiting to happen.
-	Schedule schedule;
+	Schedule sim_schedule;
 	
 	// Statistics object holds the important values for this simulation.
 	Statistics stats;
@@ -44,36 +42,40 @@ public class Simulator {
 	public Simulator(int entry, int exit) {
 		// Initialize internal structures of the Simulator
 		components = new LinkedList<Component>();
-		schedule = new Schedule();
+		sim_schedule = new Schedule();
 		stats = new Statistics();
 		
 		// Put the components in place
-		Component entry_gate = new Gate(entry);
-		Component exit_gate = new Gate(exit);
+		Component entry_gate = new Gate(entry, sim_schedule, "entry gate");
+		Component exit_gate = new Gate(exit, sim_schedule, "exit gate");
 		components.add(entry_gate);
 		//components.add(transit_entry_stack);
 		//components.add(stack);
 		//components.add(transit_exit_stack);
 		components.add(exit_gate);
 		
+		// Register the components so the schedule knows them
+		sim_schedule.registerComponents(components);
+		
 		// Get the data from the excel list and start populating the scheduler
 		HashMap<Truck, LocalTime> timelist = ExcelTruckReader.read();
-		schedule.addAll(timelist, components.getFirst());
+		sim_schedule.addAll(timelist, components.getFirst());
 	}
 
 	public void run() {
 		// Main loop of the simulator
 		while(isActive()) {
 			step();
+			
 		}
 	}
 
 	private void step() {
-		// Nothing to do yet
+		sim_schedule.doNextStep();
 	}
 
 	private boolean isActive() {
-		return schedule.isActive();
+		return sim_schedule.isActive();
 	}
 
 	public String getStatistics() {

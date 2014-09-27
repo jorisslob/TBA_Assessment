@@ -3,7 +3,9 @@ package nl.jslob.tba.gatesim.simulator;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import com.google.common.collect.ArrayListMultimap;
@@ -22,10 +24,12 @@ import nl.jslob.tba.gatesim.components.Component;
  */
 public class Schedule {
 
-	Multimap<LocalTime, Truck> schedule;
+	public TreeMultimap<LocalTime, Truck> schedule;
+	LinkedList<Component> components;
+	LocalTime now;
 	
 	public Schedule() {
-		schedule = ArrayListMultimap.create();
+		schedule = TreeMultimap.create();
 	}
 	
 	/**
@@ -33,20 +37,61 @@ public class Schedule {
 	 * @return
 	 */
 	public boolean isActive() {
-		return false;
+		return schedule.size()>0;
 	}
 
 	/**
-	 * Provides an easy way to mass populate the schedule with new events.
+	 * Provides an easy way to mass populate the schedule with new entry events.
 	 * @param read
 	 * @param gate 
 	 */
-	public void addAll(HashMap<Truck,LocalTime> timelist, Component next) {
+	public void addAll(Map<Truck,LocalTime> timelist, Component next) {
 		for(Entry<Truck, LocalTime> e:timelist.entrySet()) {
 			Truck t = e.getKey();
-			t.setNext(next);
-			schedule.put(e.getValue(), t);
+			LocalTime now = e.getValue();
+			long duration = next.acceptTruck(t);
+			if (duration>0) {
+				LocalTime future = now.plusSeconds(duration);
+				// Still with the same location, because we will be releasing them from there
+				schedule.put(future, t);
+			}
 		}
+	}
+
+	public void doNextStep() {
+		// Find out which truck is next...
+		LocalTime first = schedule.asMap().firstKey();
+		Truck t = schedule.get(first).first();
+		now = first;
+		schedule.remove(first, t);
+		
+		// The component that has the truck should be notified that it is done.
+		// And the next component should be notified that the truck is on its way
+		Component n = getNextComponent(t.getLocation());
+		t.getLocation().releaseTruck(t);
+		n.acceptTruck(t);
+		
+		
+	}
+	
+	private Component getNextComponent(Component c) {
+		int i = components.indexOf(c) + 1;
+		if(i < components.size()) {
+			return components.get(i);
+		}
+		return null;
+	}
+
+	public void registerComponents(LinkedList<Component> components) {
+		this.components = components;
+	}
+
+	public void nextTruckSecondFromNow(Truck t, long seconds) {
+		schedule.put(getNow().plusSeconds(seconds), t);
+	}
+	
+	private LocalTime getNow() {
+		return now; 
 	}
 	
 }

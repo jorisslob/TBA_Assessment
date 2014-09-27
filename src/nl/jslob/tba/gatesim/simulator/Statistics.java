@@ -22,4 +22,14 @@ public class Statistics {
 	public int getTotalQueueViolations() {
 		return queueViolations;
 	}
+
+	public void addQueueTime(Object processTimeTruck) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void addQueueViolation(Object queueViolated) {
+		// TODO Auto-generated method stub
+		
+	}
 }

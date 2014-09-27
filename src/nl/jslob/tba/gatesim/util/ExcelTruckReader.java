@@ -47,6 +47,8 @@ public class ExcelTruckReader {
 				rownum++;
 				row = sheet.getRow(rownum);
 				cell1 = row.getCell(0);
+				cell2 = row.getCell(1);
+				cell3 = row.getCell(2);
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
