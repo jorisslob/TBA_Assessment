@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
+import nl.jslob.tba.assessment.impl.GammaDistributionImpl;
 import nl.jslob.tba.assessment.impl.GateLocationImpl;
 import nl.jslob.tba.assessment.impl.HarborImpl;
 import nl.jslob.tba.assessment.impl.TruckPoolImpl;
@@ -19,17 +20,21 @@ public class Main {
 		try {
 			// First we read the truck activity from the xlsx file
 			pool = new TruckPoolImpl("TruckActivity.xlsx");
+
 			// Next we initialize the Harbor
+			// The harbor in this simulation looks like this:
+			//
+			// pool -> entry -> transit -> loader -> transit -> exit -> statistics
 			h = new HarborImpl(pool.getTruckMap());
-			HarborLocation entry = new GateLocationImpl(9,3,1);
-			h.add(entry);
-			// TODO: Construct the harbor components and link them
-			// The harbor is this chain of HarborLocations:
-			// Entry -> Transit -> Loader -> Transit -> Exit
-			System.out.println(h);
-			System.out.println(h.showSchedule());
+			h.add(new GateLocationImpl(9,3,1));
+			// TODO: Add the next steps
 			
-			// TODO: Simulate the harbor
+			while(h.isActive()) {
+				h.nextStep();
+				System.out.println("Taking a harbor step");
+			}
+			// TODO: Show harbor statistics
+			
 		} catch (InvalidFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
