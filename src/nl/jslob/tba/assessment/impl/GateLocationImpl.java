@@ -5,8 +5,7 @@ import nl.jslob.tba.assessment.model.QueueList;
 
 public class GateLocationImpl implements HarborLocation {
 	private QueueList ql;
-	private int alpha;
-	private int beta;
+	private GammaDistributionImpl gd;
 
 	
 	/*
@@ -15,8 +14,7 @@ public class GateLocationImpl implements HarborLocation {
 	 */
 	public GateLocationImpl(int alpha, int beta, int lanes) {
 		super();
-		this.alpha = alpha;
-		this.beta = beta;
+		this.gd = new GammaDistributionImpl(alpha, beta);
 		ql = new QueueListImpl(lanes);
 	}
 
