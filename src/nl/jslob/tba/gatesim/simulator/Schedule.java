@@ -1,18 +1,13 @@
 package nl.jslob.tba.gatesim.simulator;
 
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Multimap;
-import com.google.common.collect.TreeMultimap;
-
 import nl.jslob.tba.gatesim.components.Component;
+
+import com.google.common.collect.TreeMultimap;
 
 /**
  * A Schedule is an object that keeps track of all the events that are about to happen.
