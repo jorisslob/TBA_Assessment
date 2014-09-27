@@ -67,6 +67,7 @@ public class Schedule {
 		t.getLocation().releaseTruck(t);
 		if(n==null) {
 			System.out.println("Sending truck nowhere!");
+			throw new IllegalStateException("The components do not end with a World component");
 		}
 		n.acceptTruck(t);
 	}
