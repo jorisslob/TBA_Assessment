@@ -11,37 +11,37 @@ public class Truck implements Comparable<Truck> {
 	private Component location;
 	private long queue_seconds;
 	private LocalTime startQueue;
-	
+
 	public Truck(String id, String kind) {
 		this.id = id;
 		this.kind = kind;
 		location = null;
 		queue_seconds = 0;
 	}
-	
+
 	public void putInQueue(LocalTime time) {
-		if (startQueue!=null) {
+		if (startQueue != null) {
 			throw new IllegalStateException("Truck is already in a queue");
 		}
 		startQueue = time;
 	}
-	
+
 	public void endQueueTime(LocalTime time) {
-		if (startQueue==null) {
+		if (startQueue == null) {
 			throw new IllegalStateException("Truck was not in a queue");
 		}
 		queue_seconds += startQueue.until(time, ChronoUnit.SECONDS);
 		startQueue = null;
 	}
-	
+
 	public long getQueueSeconds() {
 		return queue_seconds;
 	}
-	
+
 	public String getId() {
 		return id;
 	}
-	
+
 	public String getKind() {
 		return kind;
 	}
@@ -53,7 +53,7 @@ public class Truck implements Comparable<Truck> {
 	public Component getLocation() {
 		return location;
 	}
-	
+
 	@Override
 	public String toString() {
 		return id + " " + location;

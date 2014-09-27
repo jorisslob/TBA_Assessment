@@ -4,7 +4,7 @@ import nl.jslob.tba.gatesim.simulator.Statistics;
 import nl.jslob.tba.gatesim.simulator.Truck;
 
 public class World implements Component {
-	
+
 	Statistics stats;
 
 	public World(Statistics stats) {

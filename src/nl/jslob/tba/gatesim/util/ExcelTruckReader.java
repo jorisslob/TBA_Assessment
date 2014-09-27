@@ -18,10 +18,10 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 public class ExcelTruckReader {
 	private static String FILEPATH = "TruckActivity.xlsx";
-	
-	public static HashMap<Truck,LocalTime> read() {
+
+	public static HashMap<Truck, LocalTime> read() {
 		InputStream inp;
-		HashMap<Truck,LocalTime> truckmap = new HashMap<Truck,LocalTime>();
+		HashMap<Truck, LocalTime> truckmap = new HashMap<Truck, LocalTime>();
 		try {
 			inp = new FileInputStream(FILEPATH);
 			Workbook wb = WorkbookFactory.create(inp);
@@ -33,7 +33,7 @@ public class ExcelTruckReader {
 			Cell cell3 = row.getCell(2);
 			String date, id, kind;
 			int hour, minute, second;
-			while(cell1!=null) {
+			while (cell1 != null) {
 				date = cell1.getStringCellValue();
 				id = cell2.getStringCellValue();
 				kind = cell3.getStringCellValue();

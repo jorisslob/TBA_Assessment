@@ -9,17 +9,20 @@ import nl.jslob.tba.gatesim.simulator.Schedule;
 import nl.jslob.tba.gatesim.simulator.Truck;
 
 public class Gate implements Component {
-	List<Queue<Truck>> queues; 
+	List<Queue<Truck>> queues;
 	private Schedule schedule;
 	String name;
+
 	/**
-	 * Constructs a gate with a specified number of queue lanes and a link to the scheduler
-	 * @param schedule 
+	 * Constructs a gate with a specified number of queue lanes and a link to
+	 * the scheduler
+	 * 
+	 * @param schedule
 	 * @param entry
 	 */
 	public Gate(int lanes, Schedule schedule, String name) {
 		queues = new ArrayList<Queue<Truck>>();
-		for(int i=0; i<lanes; i++) {
+		for (int i = 0; i < lanes; i++) {
 			queues.add(new LinkedList<Truck>());
 		}
 		this.schedule = schedule;
@@ -41,47 +44,49 @@ public class Gate implements Component {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
+
+	@Override
 	public void acceptTruck(Truck t) {
 		t.setLocation(this);
-		
+
 		// Find the smallest queue
-		Queue<Truck> min = queues.get(0); 
+		Queue<Truck> min = queues.get(0);
 		int min_val = queues.get(0).size();
-		for(Queue<Truck> q:queues) {
-			if (q.size()<min_val) {
+		for (Queue<Truck> q : queues) {
+			if (q.size() < min_val) {
 				min = q;
 				min_val = q.size();
 			}
 		}
 		min.offer(t);
 		// If the queue was empty, we can process this truck right away!
-		if(min_val==0) {
-			schedule.nextTruckSecondFromNow(t, 3*60);
+		if (min_val == 0) {
+			schedule.nextTruckSecondFromNow(t, 3 * 60);
 		} else {
 			// Otherwise we have to wait till other trucks are released...
 			t.putInQueue(schedule.getNow());
 		}
 	}
-	
+
+	@Override
 	public void releaseTruck(Truck t) {
-		for(Queue<Truck> q:queues) {
-			if(q.peek()==t) {
+		for (Queue<Truck> q : queues) {
+			if (q.peek() == t) {
 				q.poll(); // The requested truck is released
 				// The next in the queue might become active
-				if(!q.isEmpty()) {
+				if (!q.isEmpty()) {
 					Truck next = q.peek();
 					next.endQueueTime(schedule.getNow());
-					schedule.nextTruckSecondFromNow(q.peek(), 3*60);
+					schedule.nextTruckSecondFromNow(q.peek(), 3 * 60);
 				}
 				return;
 			}
 		}
-		System.out.println("Looking for Truck: "+t);
-		for(Queue<Truck> q:queues) {
+		System.out.println("Looking for Truck: " + t);
+		for (Queue<Truck> q : queues) {
 			System.out.println(q.size());
 		}
-		
+
 		throw new IllegalStateException("Truck to be released not found!");
 	}
 
