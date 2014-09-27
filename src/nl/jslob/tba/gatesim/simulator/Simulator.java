@@ -6,6 +6,7 @@ import java.util.LinkedList;
 
 import nl.jslob.tba.gatesim.components.Component;
 import nl.jslob.tba.gatesim.components.Gate;
+import nl.jslob.tba.gatesim.components.Transit;
 import nl.jslob.tba.gatesim.components.World;
 import nl.jslob.tba.gatesim.util.ExcelTruckReader;
 
@@ -52,11 +53,13 @@ public class Simulator {
 		Component world = new World(stats);
 		Component entry_gate = new Gate(entry, sim_schedule, "entry gate");
 		Component exit_gate = new Gate(exit, sim_schedule, "exit gate");
+		Component transit_entry_stack = new Transit(sim_schedule);
+		Component transit_stack_exit = new Transit(sim_schedule);
 		components.add(world);
 		components.add(entry_gate);
-		// components.add(transit_entry_stack);
+		components.add(transit_entry_stack);
 		// components.add(stack);
-		// components.add(transit_exit_stack);
+		components.add(transit_stack_exit);
 		components.add(exit_gate);
 		components.add(world);
 
