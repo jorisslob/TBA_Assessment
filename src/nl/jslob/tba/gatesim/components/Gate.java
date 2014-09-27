@@ -58,8 +58,10 @@ public class Gate implements Component {
 		// If the queue was empty, we can process this truck right away!
 		if(min_val==0) {
 			schedule.nextTruckSecondFromNow(t, 3*60);
+		} else {
+			// Otherwise we have to wait till other trucks are released...
+			t.putInQueue(schedule.getNow());
 		}
-		// Otherwise we have to wait till other trucks are released...
 	}
 	
 	public void releaseTruck(Truck t) {
@@ -68,6 +70,8 @@ public class Gate implements Component {
 				q.poll(); // The requested truck is released
 				// The next in the queue might become active
 				if(!q.isEmpty()) {
+					Truck next = q.peek();
+					next.endQueueTime(schedule.getNow());
 					schedule.nextTruckSecondFromNow(q.peek(), 3*60);
 				}
 				return;

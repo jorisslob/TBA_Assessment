@@ -8,17 +8,18 @@ package nl.jslob.tba.gatesim.simulator;
  */
 public class Statistics {
 	int num_of_trucks;
-	double queueTime;
+	long queueTime;
 	int queueViolations;
 	
 	public Statistics() {
-		queueTime = 0.0D;
+		queueTime = 0;
 		queueViolations = 0;
 		num_of_trucks = 0;
 	}
 	
 	public void addTruck(Truck t) {
 		num_of_trucks++;
+		queueTime += t.getQueueSeconds();
 	}
 	
 	public int getNumOfTrucks() {
@@ -31,15 +32,5 @@ public class Statistics {
 	
 	public int getTotalQueueViolations() {
 		return queueViolations;
-	}
-
-	public void addQueueTime(Object processTimeTruck) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void addQueueViolation(Object queueViolated) {
-		// TODO Auto-generated method stub
-		
 	}
 }

@@ -87,7 +87,7 @@ public class Schedule {
 		schedule.put(getNow().plusSeconds(seconds), t);
 	}
 	
-	private LocalTime getNow() {
+	public LocalTime getNow() {
 		return now; 
 	}
 	
