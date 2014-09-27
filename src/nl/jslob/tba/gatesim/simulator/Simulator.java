@@ -26,6 +26,9 @@ public class Simulator {
 	// The schedule has all the events that are waiting to happen.
 	Schedule schedule;
 	
+	// Statistics object holds the important values for this simulation.
+	Statistics stats;
+	
 
 	/**
 	 * Creates a Simulator with a specified number of entry and exit lanes.
@@ -33,8 +36,10 @@ public class Simulator {
 	 * @param exit number of exit lanes
 	 */
 	public Simulator(int entry, int exit) {
+		// Initialize internal structures of the Simulator
 		components = new LinkedHashSet<Component>();
 		schedule = new Schedule();
+		stats = new Statistics();
 	}
 
 	public void run() {
@@ -53,7 +58,14 @@ public class Simulator {
 	}
 
 	public String getStatistics() {
-		return "Nothing simulated";
+		StringBuilder sb = new StringBuilder();
+		sb.append("Total Queue Time: ");
+		sb.append(stats.getTotalQueueTime());
+		sb.append("\n");
+		sb.append("Total Queue Violations: ");
+		sb.append(stats.getTotalQueueViolations());
+		sb.append("\n");
+		return sb.toString();
 	}
 
 }
