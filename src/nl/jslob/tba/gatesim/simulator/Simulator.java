@@ -1,11 +1,12 @@
 package nl.jslob.tba.gatesim.simulator;
 
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.LinkedList;
 
 import nl.jslob.tba.gatesim.components.Component;
 import nl.jslob.tba.gatesim.components.Gate;
+import nl.jslob.tba.gatesim.components.StackModules;
 import nl.jslob.tba.gatesim.components.Transit;
 import nl.jslob.tba.gatesim.components.World;
 import nl.jslob.tba.gatesim.util.ExcelTruckReader;
@@ -55,10 +56,11 @@ public class Simulator {
 		Component exit_gate = new Gate(exit, sim_schedule, "exit gate");
 		Component transit_entry_stack = new Transit(sim_schedule);
 		Component transit_stack_exit = new Transit(sim_schedule);
+		Component stack = new StackModules(10, sim_schedule);
 		components.add(world);
 		components.add(entry_gate);
 		components.add(transit_entry_stack);
-		// components.add(stack);
+		components.add(stack);
 		components.add(transit_stack_exit);
 		components.add(exit_gate);
 		components.add(world);
@@ -67,7 +69,7 @@ public class Simulator {
 		sim_schedule.registerComponents(components);
 
 		// Get the data from the excel list and start populating the scheduler
-		HashMap<Truck, LocalTime> timelist = ExcelTruckReader.read();
+		HashMap<Truck, LocalDateTime> timelist = ExcelTruckReader.read();
 		sim_schedule.addAll(timelist, components.getFirst());
 	}
 
@@ -87,7 +89,7 @@ public class Simulator {
 	}
 
 	public String getStatistics() {
-		StringBuilder sb = new StringBuilder();
+		/*StringBuilder sb = new StringBuilder();
 		sb.append("Total Queue Time: ");
 		sb.append(stats.getTotalQueueTime());
 		sb.append("\n");
@@ -98,6 +100,8 @@ public class Simulator {
 		sb.append(stats.getNumOfTrucks());
 		sb.append("\n");
 		return sb.toString();
+		*/
+		return Double.toString(stats.getTotalQueueTime());
 	}
 
 }

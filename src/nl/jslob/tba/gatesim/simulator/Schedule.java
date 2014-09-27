@@ -1,6 +1,6 @@
 package nl.jslob.tba.gatesim.simulator;
 
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -19,9 +19,9 @@ import com.google.common.collect.TreeMultimap;
  */
 public class Schedule {
 
-	public TreeMultimap<LocalTime, Truck> schedule;
+	public TreeMultimap<LocalDateTime, Truck> schedule;
 	LinkedList<Component> components;
-	LocalTime now;
+	LocalDateTime now;
 
 	public Schedule() {
 		schedule = TreeMultimap.create();
@@ -42,10 +42,10 @@ public class Schedule {
 	 * @param read
 	 * @param gate
 	 */
-	public void addAll(Map<Truck, LocalTime> timelist, Component next) {
-		for (Entry<Truck, LocalTime> e : timelist.entrySet()) {
+	public void addAll(Map<Truck, LocalDateTime> timelist, Component next) {
+		for (Entry<Truck, LocalDateTime> e : timelist.entrySet()) {
 			Truck t = e.getKey();
-			LocalTime now = e.getValue();
+			LocalDateTime now = e.getValue();
 			t.setLocation(next);
 			schedule.put(now, t);
 		}
@@ -53,7 +53,7 @@ public class Schedule {
 
 	public void doNextStep() {
 		// Find out which truck is next...
-		LocalTime first = schedule.asMap().firstKey();
+		LocalDateTime first = schedule.asMap().firstKey();
 		Truck t = schedule.get(first).first();
 		now = first;
 		schedule.remove(first, t);
@@ -87,7 +87,7 @@ public class Schedule {
 		schedule.put(getNow().plusSeconds(seconds), t);
 	}
 
-	public LocalTime getNow() {
+	public LocalDateTime getNow() {
 		return now;
 	}
 

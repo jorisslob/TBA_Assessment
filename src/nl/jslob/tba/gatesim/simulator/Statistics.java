@@ -20,6 +20,9 @@ public class Statistics {
 
 	public void addTruck(Truck t) {
 		num_of_trucks++;
+		if(t.getQueueSeconds()<0) {
+			throw new IllegalStateException("Cannot spend negative time in queue");
+		}
 		queueTime += t.getQueueSeconds();
 	}
 

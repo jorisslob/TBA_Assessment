@@ -1,6 +1,6 @@
 package nl.jslob.tba.gatesim.simulator;
 
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
 import nl.jslob.tba.gatesim.components.Component;
@@ -10,7 +10,7 @@ public class Truck implements Comparable<Truck> {
 	private String kind;
 	private Component location;
 	private long queue_seconds;
-	private LocalTime startQueue;
+	private LocalDateTime startQueue;
 
 	public Truck(String id, String kind) {
 		this.id = id;
@@ -19,18 +19,24 @@ public class Truck implements Comparable<Truck> {
 		queue_seconds = 0;
 	}
 
-	public void putInQueue(LocalTime time) {
+	public void putInQueue(LocalDateTime time) {
 		if (startQueue != null) {
 			throw new IllegalStateException("Truck is already in a queue");
 		}
 		startQueue = time;
 	}
 
-	public void endQueueTime(LocalTime time) {
+	public void endQueueTime(LocalDateTime time) {
 		if (startQueue == null) {
 			throw new IllegalStateException("Truck was not in a queue");
 		}
-		queue_seconds += startQueue.until(time, ChronoUnit.SECONDS);
+		long extra_seconds = startQueue.until(time, ChronoUnit.SECONDS);
+		
+		if(extra_seconds<0) {
+			System.out.println(startQueue + " until " + time + " = " + extra_seconds);
+			throw new IllegalStateException("Cannot spend negative time in queue");
+		}
+		queue_seconds += extra_seconds;
 		startQueue = null;
 	}
 
