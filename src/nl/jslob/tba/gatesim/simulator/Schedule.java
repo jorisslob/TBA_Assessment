@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 import com.google.common.collect.TreeMultimap;
 
 import nl.jslob.tba.gatesim.components.Component;
@@ -20,7 +22,11 @@ import nl.jslob.tba.gatesim.components.Component;
  */
 public class Schedule {
 
-	TreeMultimap<LocalTime, Truck> schedule;
+	Multimap<LocalTime, Truck> schedule;
+	
+	public Schedule() {
+		schedule = ArrayListMultimap.create();
+	}
 	
 	/**
 	 * Returns true if there are any events that still need processing

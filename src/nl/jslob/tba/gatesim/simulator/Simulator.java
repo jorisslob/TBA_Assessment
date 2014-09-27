@@ -4,6 +4,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 
 import nl.jslob.tba.gatesim.components.Component;
 import nl.jslob.tba.gatesim.components.Gate;
@@ -24,9 +25,9 @@ import nl.jslob.tba.gatesim.util.ExcelTruckReader;
  */
 public class Simulator {
 	
-	// We choose a LinkedHashSet for this implementation because the order is important
-	// and we have no duplicates of components.
-	LinkedHashSet<Component> components;
+	// We choose a LinkedList for this implementation because the order is important
+	// and we have easy access to first and last elements.
+	LinkedList<Component> components;
 	
 	// The schedule has all the events that are waiting to happen.
 	Schedule schedule;
@@ -42,7 +43,7 @@ public class Simulator {
 	 */
 	public Simulator(int entry, int exit) {
 		// Initialize internal structures of the Simulator
-		components = new LinkedHashSet<Component>();
+		components = new LinkedList<Component>();
 		schedule = new Schedule();
 		stats = new Statistics();
 		
@@ -57,7 +58,7 @@ public class Simulator {
 		
 		// Get the data from the excel list and start populating the scheduler
 		HashMap<Truck, LocalTime> timelist = ExcelTruckReader.read();
-		schedule.addAll(timelist, entry_gate);
+		schedule.addAll(timelist, components.getFirst());
 	}
 
 	public void run() {
