@@ -42,7 +42,7 @@ public class Gate implements Component {
 		return 0;
 	}
 	
-	public long acceptTruck(Truck t) {
+	public void acceptTruck(Truck t) {
 		t.setLocation(this);
 		
 		// Find the smallest queue
@@ -57,10 +57,9 @@ public class Gate implements Component {
 		min.offer(t);
 		// If the queue was empty, we can process this truck right away!
 		if(min_val==0) {
-			return 3*60;
+			schedule.nextTruckSecondFromNow(t, 3*60);
 		}
-		// Otherwise we have to wait till trucks are released...
-		return -1;
+		// Otherwise we have to wait till other trucks are released...
 	}
 	
 	public void releaseTruck(Truck t) {

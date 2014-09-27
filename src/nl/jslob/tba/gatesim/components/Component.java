@@ -16,6 +16,6 @@ public interface Component {
 
 	public double queueTimeTruck(Truck t);
 	
-	public long acceptTruck(Truck t);
+	public void acceptTruck(Truck t);
 	public void releaseTruck(Truck t);
 }

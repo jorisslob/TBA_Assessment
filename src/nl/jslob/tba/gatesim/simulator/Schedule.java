@@ -49,12 +49,8 @@ public class Schedule {
 		for(Entry<Truck, LocalTime> e:timelist.entrySet()) {
 			Truck t = e.getKey();
 			LocalTime now = e.getValue();
-			long duration = next.acceptTruck(t);
-			if (duration>0) {
-				LocalTime future = now.plusSeconds(duration);
-				// Still with the same location, because we will be releasing them from there
-				schedule.put(future, t);
-			}
+			t.setLocation(next);
+			schedule.put(now, t);
 		}
 	}
 
@@ -69,9 +65,10 @@ public class Schedule {
 		// And the next component should be notified that the truck is on its way
 		Component n = getNextComponent(t.getLocation());
 		t.getLocation().releaseTruck(t);
+		if(n==null) {
+			System.out.println("Sending truck nowhere!");
+		}
 		n.acceptTruck(t);
-		
-		
 	}
 	
 	private Component getNextComponent(Component c) {

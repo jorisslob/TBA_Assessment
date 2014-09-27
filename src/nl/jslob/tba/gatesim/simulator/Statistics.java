@@ -7,12 +7,22 @@ package nl.jslob.tba.gatesim.simulator;
  * @author jslob
  */
 public class Statistics {
+	int num_of_trucks;
 	double queueTime;
 	int queueViolations;
 	
 	public Statistics() {
 		queueTime = 0.0D;
 		queueViolations = 0;
+		num_of_trucks = 0;
+	}
+	
+	public void addTruck(Truck t) {
+		num_of_trucks++;
+	}
+	
+	public int getNumOfTrucks() {
+		return num_of_trucks;
 	}
 	
 	public double getTotalQueueTime() {
