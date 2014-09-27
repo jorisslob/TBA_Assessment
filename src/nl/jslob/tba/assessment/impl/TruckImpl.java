@@ -8,11 +8,13 @@ public class TruckImpl implements Truck {
 	LocalTime arrivaltime;
 	String id;
 	boolean loaded;
+	long queueTime;
 	
 	public TruckImpl(LocalTime arrivaltime, String id, boolean loaded) {
 		this.arrivaltime = arrivaltime;
 		this.id = id;
 		this.loaded = loaded;
+		queueTime = 0;
 	}
 	
 	@Override
@@ -36,5 +38,15 @@ public class TruckImpl implements Truck {
 	@Override
 	public String toString() {
 		return arrivaltime + " " + id + " " + loaded;
+	}
+
+	@Override
+	public long getMinutesInQueue() {
+		return queueTime;
+	}
+
+	@Override
+	public void addQueueMinutes(long minutes) {
+		queueTime += minutes;
 	}
 }
