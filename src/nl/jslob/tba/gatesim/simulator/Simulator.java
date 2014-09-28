@@ -101,7 +101,16 @@ public class Simulator {
 		sb.append("\n");
 		return sb.toString();
 		*/
-		return Double.toString(stats.getTotalQueueTime());
+		StringBuilder sb = new StringBuilder();
+		sb.append(stats.getTotalQueueTime());
+		sb.append(",");
+		if(stats.getQueueViolation()) {
+			sb.append("1");	
+		} else {
+			sb.append("0");
+		}
+		
+		return sb.toString();
 	}
 
 }

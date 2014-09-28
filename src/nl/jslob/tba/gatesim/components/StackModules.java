@@ -32,6 +32,9 @@ public class StackModules implements Component {
 			num_in_use++;
 			schedule.nextTruckSecondFromNow(t, gd.getValueInSeconds());
 		} else {
+			if(queue.size()>30) {
+				t.inLongQueue();
+			}
 			queue.add(t);
 			t.putInQueue(schedule.getNow());
 		}

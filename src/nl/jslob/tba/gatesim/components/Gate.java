@@ -40,6 +40,9 @@ public class Gate implements Component {
 				min_val = q.size();
 			}
 		}
+		if (min_val>30) {
+			t.inLongQueue();
+		}
 		min.offer(t);
 		// If the queue was empty, we can process this truck right away!
 		if (min_val == 0) {

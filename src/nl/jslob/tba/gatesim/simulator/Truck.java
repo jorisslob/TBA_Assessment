@@ -11,12 +11,14 @@ public class Truck implements Comparable<Truck> {
 	private Component location;
 	private long queue_seconds;
 	private LocalDateTime startQueue;
+	private boolean longQueue;
 
 	public Truck(String id, String kind) {
 		this.id = id;
 		this.kind = kind;
 		location = null;
 		queue_seconds = 0;
+		longQueue = false;
 	}
 
 	public void putInQueue(LocalDateTime time) {
@@ -93,5 +95,13 @@ public class Truck implements Comparable<Truck> {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+	
+	public void inLongQueue() {
+		longQueue = true;
+	}
+	
+	public boolean getLongQueue() {
+		return longQueue;
 	}
 }

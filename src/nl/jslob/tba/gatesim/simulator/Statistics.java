@@ -10,11 +10,11 @@ package nl.jslob.tba.gatesim.simulator;
 public class Statistics {
 	int num_of_trucks;
 	long queueTime;
-	int queueViolations;
+	boolean queueViolation;
 
 	public Statistics() {
 		queueTime = 0;
-		queueViolations = 0;
+		queueViolation = false;
 		num_of_trucks = 0;
 	}
 
@@ -24,17 +24,20 @@ public class Statistics {
 			throw new IllegalStateException("Cannot spend negative time in queue");
 		}
 		queueTime += t.getQueueSeconds();
+		if(t.getLongQueue()) {
+			queueViolation = true;
+		}
 	}
 
 	public int getNumOfTrucks() {
 		return num_of_trucks;
 	}
 
-	public double getTotalQueueTime() {
+	public long getTotalQueueTime() {
 		return queueTime;
 	}
 
-	public int getTotalQueueViolations() {
-		return queueViolations;
+	public boolean getQueueViolation() {
+		return queueViolation;
 	}
 }
