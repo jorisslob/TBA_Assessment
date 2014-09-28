@@ -9,69 +9,108 @@ import nl.jslob.tba.gatesim.simulator.Schedule;
 import nl.jslob.tba.gatesim.simulator.Truck;
 import nl.jslob.tba.gatesim.util.GammaDistributionRate;
 
+/**
+ * Gate is a component in a harbor that has one or more lanes. The lanes are
+ * queues and trucks pick the shortest queue. The processing time in the gate is
+ * determined by a Gamma Distribtion.
+ *
+ * @author jslob
+ *
+ */
 public class Gate implements Component {
-	List<Queue<Truck>> queues;
-	private Schedule schedule;
-	GammaDistributionRate gd;
 
-	/**
-	 * Constructs a gate with a specified number of queue lanes and a link to
-	 * the scheduler, and the shape parameters of the Gamma Distribution.
-	 */
-	public Gate(int lanes, Schedule schedule, int alpha, int beta) {
-		queues = new ArrayList<Queue<Truck>>();
-		for (int l = 0; l < lanes; l++) {
-			queues.add(new LinkedList<Truck>());
-		}
-		this.schedule = schedule;
-		gd = new GammaDistributionRate(alpha,beta);
-	}
+    /**
+     * MAXQUEUESIZE determines how long a queue can be before violating the
+     * restrictions of this simulation. If other simulations are run with other
+     * requirements, it is better to externalize this number to a configuration
+     * file.
+     *
+     * The value is 31 here, because the head of the queue is actually the gate
+     * itself.
+     */
+    private static final int MAXQUEUESIZE = 31;
 
-	@Override
-	public void acceptTruck(Truck t) {
-		t.setLocation(this);
+    /**
+     * GammaDistributionRate provides the random waiting times at the gate.
+     */
+    private GammaDistributionRate gd;
 
-		// Find the smallest queue
-		Queue<Truck> min = queues.get(0);
-		int min_val = queues.get(0).size();
-		for (Queue<Truck> q : queues) {
-			if (q.size() < min_val) {
-				min = q;
-				min_val = q.size();
-			}
-		}
-		if (min_val>30) {
-			t.inLongQueue();
-		}
-		min.offer(t);
-		// If the queue was empty, we can process this truck right away!
-		if (min_val == 0) {
-			schedule.nextTruckSecondFromNow(t, gd.getValueInSeconds());
-		} else {
-			// Otherwise we have to wait till other trucks are released...
-			t.putInQueue(schedule.getNow());
-		}
-	}
+    /**
+     * queues is a list of queues that hold the trucks until they can be
+     * processed. The head of the queue is the gate.
+     */
+    private List<Queue<Truck>> queues;
 
-	@Override
-	public void releaseTruck(Truck t) {
-		for (Queue<Truck> q : queues) {
-			if (q.peek() == t) {
-				q.poll(); // The requested truck is released
-				// The next in the queue might become active
-				if (!q.isEmpty()) {
-					Truck next = q.peek();
-					next.endQueueTime(schedule.getNow());
-					schedule.nextTruckSecondFromNow(q.peek(), gd.getValueInSeconds());
-				}
-				return;
-			}
-		}
-		System.out.println("Looking for Truck: " + t);
-		for (Queue<Truck> q : queues) {
-			System.out.println(q.size());
-		}
+    /**
+     * The schedule is a link to the general schedule to request a callback and
+     * to get the current time.
+     */
+    private Schedule schedule;
 
-		throw new IllegalStateException("Truck to be released not found!");
-	}
+    /**
+     * Constructs a gate with a specified number of queue lanes and a link to
+     * the scheduler, and the shape parameters of the Gamma Distribution.
+     *
+     * @param lanes
+     *            Number of lanes of this gate
+     * @param schedule
+     *            The schedule object of this simulation
+     * @param alpha
+     *            The shape parameter of the gamma distribution
+     * @param beta
+     *            The rate parameter of the gamma distribution
+     */
+    public Gate(final int lanes, final Schedule schedule, final int alpha,
+            final int beta) {
+        queues = new ArrayList<Queue<Truck>>();
+        for (int l = 0; l < lanes; l++) {
+            queues.add(new LinkedList<Truck>());
+        }
+        this.schedule = schedule;
+        gd = new GammaDistributionRate(alpha, beta);
+    }
+
+    @Override
+    public final void acceptTruck(final Truck t) {
+        t.setLocation(this);
+
+        // Find the smallest queue
+        Queue<Truck> min = queues.get(0);
+        int minVal = queues.get(0).size();
+        for (Queue<Truck> q : queues) {
+            if (q.size() < minVal) {
+                min = q;
+                minVal = q.size();
+            }
+        }
+        if (minVal > MAXQUEUESIZE) {
+            t.inLongQueue();
+        }
+        min.offer(t);
+        // If the queue was empty, we can process this truck right away!
+        if (minVal == 0) {
+            schedule.nextTruckSecondFromNow(t, gd.getValueInSeconds());
+        } else {
+            // Otherwise we have to wait till other trucks are released...
+            t.putInQueue(schedule.getNow());
+        }
+    }
+
+    @Override
+    public final void releaseTruck(final Truck t) {
+        for (Queue<Truck> q : queues) {
+            if (q.peek() == t) {
+                q.poll(); // The requested truck is released
+                // The next in the queue might become active
+                if (!q.isEmpty()) {
+                    Truck next = q.peek();
+                    next.endQueueTime(schedule.getNow());
+                    schedule.nextTruckSecondFromNow(q.peek(),
+                            gd.getValueInSeconds());
+                }
+                return;
+            }
+        }
+        throw new IllegalStateException("Truck to be released not found!");
+    }
 }
