@@ -1,0 +1,4 @@
+set datafile separator ","
+set log z
+set dgrid3d 19,19
+splot 'result.csv' using 1:2:3 with lines;
