@@ -113,4 +113,12 @@ public class Simulator {
 		return sb.toString();
 	}
 
+	public long getWaitTime() {
+		return stats.getTotalQueueTime();
+	}
+
+	public boolean getViolation() {
+		return stats.getQueueViolation();
+	}
+
 }
