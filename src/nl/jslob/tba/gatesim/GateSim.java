@@ -27,11 +27,6 @@ import nl.jslob.tba.gatesim.simulator.Simulator;
  */
 public final class GateSim {
     /**
-     * SIMULATIONS determines how many times every simulation must run for
-     * statistical significance.
-     */
-    private static final int SIMULATIONS = 100;
-    /**
      * ENTRY_MAX determines up to how many entry lanes must be simulated.
      */
     private static final int ENTRY_MAX = 20;
@@ -39,6 +34,11 @@ public final class GateSim {
      * EXIT_MAX determines up to how many exit lanes must be simulated.
      */
     private static final int EXIT_MAX = 20;
+    /**
+     * SIMULATIONS determines how many times every simulation must run for
+     * statistical significance.
+     */
+    private static final int SIMULATIONS = 100;
 
     /**
      * Main is the entry function of our program. It will run through all
