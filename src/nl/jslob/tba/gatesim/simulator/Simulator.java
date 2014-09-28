@@ -58,7 +58,7 @@ public class Simulator {
     public Simulator(final int entry, final int exit) {
         // Initialize internal structures of the Simulator
         components = new LinkedList<Component>();
-        schedule = new Schedule();
+        schedule = new Schedule(this);
         stats = new Statistics();
 
         // Put the components in place. If this simulation is used more often
@@ -78,12 +78,24 @@ public class Simulator {
         components.add(exitGate);
         components.add(world);
 
-        // Register the components so the schedule knows them
-        schedule.registerComponents(components);
-
         // Get the data from the excel list and start populating the scheduler
         HashMap<Truck, LocalDateTime> timelist = ExcelTruckReader.read();
         schedule.addAll(timelist, components.getFirst());
+    }
+
+    /**
+     * getNextComponent gets the next location in the harbor.
+     *
+     * @param c
+     *            current location
+     * @return next location in the components list
+     */
+    public final Component getNextComponent(final Component c) {
+        int i = components.indexOf(c) + 1;
+        if (i < components.size()) {
+            return components.get(i);
+        }
+        return null;
     }
 
     /**
