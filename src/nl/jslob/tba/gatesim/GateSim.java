@@ -12,13 +12,16 @@ public class GateSim {
 			for(int j=1; j<20; j++) {
 				long wait = 0;
 				boolean violation = false;
-				for(int k=1; k<SIMULATIONS; k++) {
+				int rounds = 0;
+				for(int k=0; k<SIMULATIONS; k++) {
 					Simulator sim = new Simulator(i, j);
 					sim.run();
 					wait += sim.getWaitTime();
-					violation = violation || sim.getViolation();
+					violation = sim.getViolation();
+					rounds++;
+					if(violation) break;
 				}
-				double avg = (double) wait / (double) SIMULATIONS;
+				double avg = (double) wait / (double) rounds;
 				System.out.println(i + "," + j + "," + avg + "," + violation);
 			}
 		}
