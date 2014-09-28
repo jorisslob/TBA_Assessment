@@ -3,7 +3,7 @@
 \begin{document}
 \title{TBA Assignment}
 \author{Joris Slob}
-\date{Oktober 2014}
+\date{October 2014}
 \maketitle
 
 \section{Introduction}
@@ -40,7 +40,7 @@ where 9 is the shape parameter $\alpha$ and 3 is the rate parameter
 $\beta$, and $E(X_1) = \alpha / \beta$.
 
 The truck then proceeds to one of 10 stack modules. Driving from the
-gate to the stacks or vice versa takes 3 minutes. The stack modules
+gate to the stacks or vice-versa takes 3 minutes. The stack modules
 can be represented as a system of 10 servers, having one single
 queue. Each server is able to handle one truck at a time. Any truck
 can be served by any of the servers. The service time $X_2 \sim
@@ -87,7 +87,7 @@ The answers I received back were:
 
 \subsection{Approach}
 
-In the methods section I descibe in more detail how I approached this
+In the methods section I describe in more detail how I approached this
 problem. To determine the approach I would take I first did some
 simple calculations to see what I could expect. For this I took the
 xlsx file and quick estimate of the solution.
@@ -109,7 +109,24 @@ requires 2.36 lanes.
 Let us model this gate problem in software to verify these results.
 
 \section{Method}
+
+
+
 \section{Results}
+
+
 \section{Discussion}
+
+The first result that satisfies the assignment is the model with 7
+entry lanes and 3 exit lanes. This comes close to the initial estimate
+given in the introduction. In this assignment we have introduced
+another metric to evaluate the performance of the system:
+TotalQueueWaitingTime. With data on the total time lost in queues the
+harbor can consider opening more lanes to compensate truck waiting
+time. Opening new lanes and operating them also has a cost, but these
+were not given in the assignment.
+
+This simulation is embarrassingly parallel and could be made to run
+several simulations in separate threads.
 
 \end{document}
