@@ -31,12 +31,10 @@ public class World implements Component {
         this.stats = stats;
     }
 
-    @Override
     public final void acceptTruck(final Truck t) {
         stats.addTruck(t);
     }
 
-    @Override
     public void releaseTruck(final Truck t) {
 
     }

@@ -70,7 +70,6 @@ public class Gate implements Component {
         gd = new GammaDistributionRate(alpha, beta);
     }
 
-    @Override
     public final void acceptTruck(final Truck t) {
         t.setLocation(this);
 
@@ -96,7 +95,6 @@ public class Gate implements Component {
         }
     }
 
-    @Override
     public final void releaseTruck(final Truck t) {
         for (Queue<Truck> q : queues) {
             if (q.peek() == t) {

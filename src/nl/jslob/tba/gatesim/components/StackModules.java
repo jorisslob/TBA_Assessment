@@ -70,7 +70,6 @@ public class StackModules implements Component {
         gd = new GammaDistributionRate(alpha, beta);
     }
 
-    @Override
     public final void acceptTruck(final Truck t) {
         t.setLocation(this);
         if (inUse < modules) {
@@ -89,7 +88,6 @@ public class StackModules implements Component {
         }
     }
 
-    @Override
     public final void releaseTruck(final Truck t) {
         if (inUse < 1) {
             throw new IllegalStateException(

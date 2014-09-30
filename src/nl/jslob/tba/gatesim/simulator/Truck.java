@@ -69,7 +69,6 @@ public class Truck implements Comparable<Truck> {
         longQueue = false;
     }
 
-    @Override
     public final int compareTo(final Truck o) {
         return this.id.compareTo(o.id);
     }

@@ -34,13 +34,11 @@ public class Transit implements Component {
         this.schedule = schedule;
     }
 
-    @Override
     public final void acceptTruck(final Truck t) {
         t.setLocation(this);
         schedule.nextTruckSecondFromNow(t, WAITTIME);
     }
 
-    @Override
     public void releaseTruck(final Truck t) {
 
     }
