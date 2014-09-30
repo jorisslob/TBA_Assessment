@@ -6,3 +6,4 @@ rm report.log
 rm report.pdf
 rm report.ps
 rm Simulator.eps
+rm results.eps

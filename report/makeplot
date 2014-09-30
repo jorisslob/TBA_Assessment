@@ -1,4 +1,17 @@
+set terminal postscript eps enhanced color
+set output 'results.eps'
 set datafile separator ","
+set title "Total Waiting Time of trucks in simulation"
+set xlabel "Entry gates"
+set ylabel "Exit gates"
+set zlabel "Total Waiting Time (s)" offset graph 0,0,0.75
+set nokey
 set log z
+set border 4095
 set dgrid3d 19,19
+set hidden3d
+set pm3d at b
+set palette negative
+set logscale cb
+set view 65,30
 splot 'result.csv' using 1:2:3 with lines;
