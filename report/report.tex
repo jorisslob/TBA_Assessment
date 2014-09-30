@@ -1,9 +1,11 @@
 \documentclass{article}
+
 \usepackage{graphicx} % Used to show UML model in eps
 \usepackage{datetime} % Used to format time in LaTeX
 \settimeformat{hhmmsstime} % The format we use for time 
 \setlength{\parskip}{\baselineskip} % Put exactly one line between paragraphs
 \setlength{\parindent}{0pt} % Do not indent paragraphs
+\usepackage{hyperref} % Allows URLS to appear in the document
 
 \begin{document}
 \title{TBA Gate Model Assignment}
@@ -46,6 +48,8 @@ Let us model this gate problem in software to verify these results.
 
 \section{Software model}
 
+\subsection{Overview}
+
 The goal of the software is to simulate and find the optimal number of
 entry and exit lanes. For speed and accuracy, I could reduce the
 problem to the bare minimum that matters to this particular question
@@ -71,6 +75,28 @@ physical trucks moving through the harbor and they are message objects
 that facilitate communication between the Schedule class and the
 Components.
 
+\subsection{Implementation}
+
+The code is available on Github at:\\ 
+\url{https://github.com/jorisslob/TBA_Assessment}\\ 
+Github was chosen as an offsite code repository to allow work from
+multiple computers and to have a backup of the code.
+
+The Java Application was built using Apache Maven 3.0.5. This allows
+other users to easily build and deploy the application. It also deals
+with dependency management.
+
+Our project has four dependencies on external libraries:
+
+\begin{description}
+\item[Apache POI] Needed to parse Excel files.
+\item[Apache POI OOXML] Needed to parse the xlsx files specifically.
+\item[Apache Commons Math3] Used for the Gamma Distribution.
+\item[Google Guava Collections] Used for the TreeMultimap datastructure.
+\end{description}
+
+Code was written for JRE 8 in Eclipse Luna. 
+
 \section{Results}
 
 The first result that satisfies the assignment is the model with 7
@@ -80,7 +106,8 @@ another metric to evaluate the performance of the system:
 TotalQueueTime. With data on the total time lost in queues the harbor
 can consider opening more lanes to compensate truck waiting
 time. Opening new lanes and operating them also has a cost, but these
-were not given in the assignment.
+were not given in the assignment. The graph shows the Total Queue Time
+for different configurations of the harbor.
 
 \includegraphics[scale=0.9]{results.eps}
 
