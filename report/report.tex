@@ -46,7 +46,30 @@ Let us model this gate problem in software to verify these results.
 
 \section{Software model}
 
+The goal of the software is to simulate and find the optimal number of
+entry and exit lanes. For speed and accuracy, I could reduce the
+problem to the bare minimum that matters to this particular question
+and simulate just that. The other extreme possibility is to make a
+fully graphical simulator that shows the state of the harbor at every
+second. I decided to go for the middle ground, which is an application
+without a graphical interface, but design the application in such a
+way that it is still possible to create one later.
+
+The code is split up in three packages, components, simulator and
+util. The simulator contains all the classes that are necessary to run
+a simulator and report back on the statistics. The components package
+contains all the seperate components of the harbor that trucks have to
+go through. The util package contains two utility classes, one for
+parsing the Excel file and one to deal with Gamma Distributions.
+
+The general class layout can be seen in the following UML diagram.
+
 \includegraphics[scale=0.4]{Simulator.eps}
+
+Trucks play a special role in this simulation. They are both modelled
+physical trucks moving through the harbor and they are message objects
+that facilitate communication between the Schedule class and the
+Components.
 
 \section{Results}
 
