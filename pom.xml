@@ -8,7 +8,6 @@
   <name>TBA_Assessment</name>
   <url>http://maven.apache.org</url>
   <build>
-    <sourceDirectory>src</sourceDirectory>
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
