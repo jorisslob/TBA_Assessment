@@ -9,6 +9,8 @@ public class GammaDistributionRateTest {
     @Test
     public void testGammaDistributionRate() {
         // This is a normal call to the GammaDistributionRate
+        // We are only testing the constructor, so we understand the
+        // object is not used in this function.
         @SuppressWarnings("unused")
         GammaDistributionRate gdr = new GammaDistributionRate(9,3);
     }
