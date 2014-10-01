@@ -8,7 +8,7 @@ set zlabel "Total Waiting Time (s)" offset graph 0,0,0.75
 set nokey
 set log z
 set border 4095
-set dgrid3d 19,19
+set dgrid3d 14,39
 set hidden3d
 set pm3d at b
 set palette negative

@@ -29,16 +29,16 @@ public final class GateSim {
     /**
      * ENTRY_MAX determines up to how many entry lanes must be simulated.
      */
-    private static final int ENTRY_MAX = 20;
+    private static final int ENTRY_MAX = 40;
     /**
      * EXIT_MAX determines up to how many exit lanes must be simulated.
      */
-    private static final int EXIT_MAX = 20;
+    private static final int EXIT_MAX = 15;
     /**
      * SIMULATIONS determines how many times every simulation must run for
      * statistical significance.
      */
-    private static final int SIMULATIONS = 100;
+    private static final int SIMULATIONS = 10;
 
     /**
      * Main is the entry function of our program. It will run through all
