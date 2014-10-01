@@ -44,7 +44,7 @@ the stack modules.
 The exit gate takes 1 minute on average to deal with a truck, so to
 handle the 2.36 trucks/min requires 2.36 lanes.
 
-Let us model this gate problem in software to verify these results.
+Next I modeled this gate problem in software to verify these results.
 
 \section{Software model}
 
@@ -84,13 +84,15 @@ util. The simulator contains all the classes that are necessary to run
 a simulator and report back on the statistics. The components package
 contains all the separate components of the harbor that trucks have to
 go through. The util package contains two utility classes, one for
-parsing the Excel file and one to deal with Gamma Distributions.
+parsing the Excel file and one to deal with gamma distributions.
 
+\pagebreak
 The class layout of the most important classes can be seen in the
-following UML diagram.
+following UML diagram (auto-generated from code).
 
 \includegraphics[scale=0.4]{Simulator.eps}
 
+\pagebreak
 \subsection{Implementation}
 
 The code is available on GitHub at:\\ 
@@ -107,7 +109,7 @@ My project has five dependencies on external libraries:
 \begin{description}
 \item[Apache POI] Needed to parse Excel files.
 \item[Apache POI OOXML] Needed to parse the xlsx files specifically.
-\item[Apache Commons Math3] Used for the Gamma Distribution.
+\item[Apache Commons Math3] Used for the gamma distribution.
 \item[Google Guava Collections] Used for the TreeMultimap data structure.
 \item[JUnit] Used for test cases.
 \end{description}
@@ -122,21 +124,22 @@ The output is now done to stdout, but could be adapted later. The
 results were piped to a csv file and visualized using a gnuplot
 script.
 
+\pagebreak
 \section{Results}
 
-The first result (with the smallest number of gates) that satisfies
-the assignment (no queue greater than 30 trucks at any time) is the
-model with 7 entry lanes and 3 exit lanes. This comes close to the
-initial estimate given in the introduction. 
+The first result (with the smallest number of gates) from the
+simulation that satisfies the assignment (no queue greater than 30
+trucks at any time) is the model with 7 entry lanes and 3 exit
+lanes. This comes close to the initial estimate given in the
+introduction.
 
 In this assignment I have introduced another metric to evaluate the
-performance of the system: TotalQueueTime. With data on the total time
-lost in queues the harbor can consider opening more lanes to
-compensate truck waiting time. Opening new lanes and operating them
-also has a cost, but these were not given in the assignment. With the
-data from the simulation and cost information on gates and waiting
-time, an optimum can be found. The graph shows the Total Queue Time
-for different configurations of the harbor.
+performance of the system: TotalQueueTime (see below). With
+data on the total time lost in queues the harbor can consider opening
+more lanes to compensate truck waiting time. Opening new lanes and
+operating them also has a cost, but these were not given in the
+assignment. By combining the data from the simulation and cost
+information on gates and waiting time, an optimum can be found.
 
 \includegraphics[scale=0.9]{results.eps}
 
