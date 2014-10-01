@@ -70,9 +70,9 @@ handle them concurrently, because the trucks have no interaction with
 eachother in this simulation. The SortedMap interface comes close to
 our wishes, but it does not allow duplicate keys, so if we wanted to
 use this, we would have to implement our datastructure as
-SortedMap<LocalDateTime, List<?>>. Instead of creating this structure,
-I have reused the TreeMultimap implementation from the Google
-Collections Library.
+SortedMap\textless LocalDateTime, List\textless ?\textgreater
+\textgreater. Instead of creating this structure, I have reused the
+TreeMultimap implementation from the Google Collections Library.
 
 Trucks play a special role in this simulation. They represent both
 physical trucks moving through the harbor and they are message objects
